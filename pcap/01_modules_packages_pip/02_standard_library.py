@@ -28,9 +28,14 @@ random.shuffle(nums)               # shuffles the list IN PLACE (returns None)
 print(nums)
 print(random.sample(range(100), 3))  # 3 UNIQUE random picks
 
-# Seeding makes results reproducible — same seed => same sequence
+# Seeding makes the whole SEQUENCE reproducible — NOT any single call.
+# seed(42) resets the generator; each draw then ADVANCES its state to the next
+# value in the stream. Re-running this file re-runs seed(42), so you always get
+# the same pair below. But calling one line repeatedly in the console WITHOUT
+# re-seeding keeps walking the stream: 82, 15, 4, 95, ...
 random.seed(42)
-print(random.randint(1, 100))      # identical every run with seed 42
+print(random.randint(1, 100))      # 1st draw after seed(42) -> always 82
+print(random.randint(1, 100))      # 2nd draw -> always 15 (the stream moved on, NOT 82 again)
 
 
 # platform — information about the host machine / interpreter

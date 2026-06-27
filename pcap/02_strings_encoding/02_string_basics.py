@@ -35,18 +35,45 @@ word = "certification"
 print(word[0:4])       # 'cert'       indices 0,1,2,3
 print(word[:4])        # 'cert'       start defaults to 0
 print(word[4:])        # 'ification'  stop defaults to len(word)
-print(word[:])         # 'certification'  full copy
+print(word[:])         # 'certification'  SAME object, not a copy (str is immutable)
 print(word[-4:])       # 'tion'       last 4 chars
 print(word[::2])       # 'criiain'    every 2nd char
 print(word[::-1])      # 'noitacifitrec'  reversed!
+print(word[1:5:2])     #  'et'  C|e{-r}t{-i}
 
 # Slices NEVER raise IndexError — out-of-range bounds are clamped:
 print(word[5:999])     # 'fication'   (clamped to the end, no error)
 print(word[100:200])   # ''           (empty, still no error)
 
 
+# IDENTITY (is) vs EQUALITY (==)
+# ------------------------------
+# ==  compares VALUE    (same characters?)
+# is  compares IDENTITY (the same object in memory?)
+a = "certification"
+b = "".join(["certif", "ication"])   # built at RUNTIME from pieces
+print(a == b)          # True   — identical characters
+print(a is b)          # False  — different objects (runtime-built, not interned)
+
+# Because str is IMMUTABLE, a full slice returns the SAME object — NOT a copy.
+# So there is no reason to "copy" a string; just bind another name.
+print(a[:] is a)       # True   — a[:] is a, not a fresh copy
+c = a                  # another name -> still the same object
+print(c is a)          # True
+
+# Contrast: slicing a MUTABLE list DOES make a real (shallow) copy:
+nums = [1, 2, 3]
+print(nums[:] is nums) # False
+
+# SUBTLE: two string LITERALS can be folded/interned into one object at compile
+# time, so `is` may be True by accident — never rely on it to compare values:
+folded = "certif" + "ication"        # folded to the constant "certification"
+print(folded is a)                   # True here (compile-time constant folding)
+
+
 # PCAP POINTS:
 # - Indexing out of range -> IndexError; slicing out of range -> clamped, no error.
 # - Strings are immutable: item or slice assignment raises TypeError.
 # - s[::-1] is the idiomatic way to reverse a string.
-# - A slice always returns a NEW string (even s[:] is a fresh copy).
+# - Use == to compare string VALUE; use `is` only for identity. Because str is
+#   immutable, s[:] returns the SAME object (not a copy) — to alias, write t = s.

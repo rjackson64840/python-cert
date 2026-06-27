@@ -22,3 +22,8 @@ Fundamentals skill track is also part of this prep.)
 - Real PCAP format: 4 options (A–D), single- or multi-select, plausible
   distractors including error/exception outcomes. Grade with full rationale
   for every question, especially misses.
+- When presenting answers, reprint each question with its options in a code
+  block (monospace alignment), replacing the leading bullet with a marker:
+  `+` = correct answer the user selected (got it right), `>` = correct answer
+  the user missed (didn't select), `X` = wrong choice the user selected,
+  space = an unselected distractor. Put the explanation after each question.
